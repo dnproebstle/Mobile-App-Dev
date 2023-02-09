@@ -1,0 +1,146 @@
+// This is a template for a gambling chatbot. This bot can be used for multiple different gambling games.
+// The chatbot has the ability to:
+//      1. Prompt for and store the player's name, age, city, and state. 
+//      2. Perform an age verification to ensure the player is of the age to gamble. 
+//      3. Display a main menu with built-in options.
+//      4. Start a simple balance system with an intial deposit.
+// To customize this chatbot for a specific game you will need to add in:
+//      1. Functionality to the main_game topic.
+//      2. The code that runs the main game. 
+//      3. Balance management functionality (i.e. functions that subtract & add to the player's balance).
+
+
+! version = 2.0
+
++ start
+- <set game_name=[Gambling Game]>Hello! I am <get game_name> Bot! What is your name? {topic=asked_name}
+
+
+> topic asked_name
+
+    + # 
+    - Your name is a number?
+
+    + * 
+    - I only want your first name.
+
+    + _
+    - <set name=<formal>> Hello <get name>! Welcome to <get game_name> Bot! {topic=asked_age}{@age_prompt}
+
+< topic
+
+
+> topic asked_age
+
+    + age_prompt
+    - \nPlease enter your age to ensure you are of gambling age:
+
+    + _
+    - Please enter your age as a number.
+
+    + #
+    - <set age=<star1>> {@age_verification}
+
+    + age_verification
+    * <get age> >= 18 => You are of age! {topic=state_info}{@state_prompt}
+    - You are not of age! Exiting now... {topic=shutdown}
+
+< topic
+
+
+> topic state_info
+
+    + state_prompt
+    - \nPlease enter your State in the XX format:
+
+    + #
+    - Invalid entry... Try again.
+
+    + _
+    - <set state={uppercase}<star1>{/uppercase}>State Code: <get state> successfully saved. {topic=city_info}{@city_prompt}
+
+< topic
+
+
+> topic city_info
+
+    + city_prompt
+    - \nPlease enter your City:
+
+    + #
+    - Invalid entry... Try again.
+
+    + _
+    - <set city=<formal>>City: <get city> successfully saved. {topic=initial_deposit}{@deposit_prompt}
+
+< topic
+
+
+> topic initial_deposit
+
+    + deposit_prompt
+    - \nPlease enter your initial deposit amount:
+
+    + _
+    - Please enter the deposit amount as a number.
+
+    + # 
+    - <set balance=<star1>>You now have a starting balance of $<get balance>.
+    ^ \n--Enter 'c' to continue to main menu--
+
+    + c
+    - {topic=main_menu}{@menu_options}
+
+< topic
+
+
+> topic main_menu
+
+    + menu_options
+    - \n_____<get game_name> Main Menu______
+    ^ \nWelcome <get name>! Please select one of the following options by entering the number:
+    ^ \n1. PLAY
+    ^ \n2. My Profile
+    ^ \n3. EXIT GAME
+    ^ \n\n\n
+
+    + #
+    * <star1> == 1 => {topic=main_game}{@start_prompt}
+    * <star1> == 2 => {topic=profile_display}{@profile_info}
+    * <star1> == 3 => EXITING...{topic=shutdown}
+    - The option '<star1>' does not appear to be a valid option. Please select another number.
+
+< topic
+
+
+> topic profile_display
+
+    + profile_info
+    - \nPlayer's Name: <get name>
+    ^ \nPlayer's Age: <get age>
+    ^ \nState: <get state>
+    ^ \nCity: <get city>
+    ^ \nBalance: $<get balance>
+    ^ \n\n--Enter any key to continue--
+
+    + *
+    - {topic=main_menu}{@menu_options}
+
+< topic
+
+
+> topic main_game
+
+    + start_prompt
+    - Welcome <get name> to <get game_name>! Are you ready to play?
+    ^ \nERROR: No game initialized. EXITING... {topic=shutdown}
+
+< topic
+
+
+> topic shutdown
+
++ *
+- The game has been shut down. Restart if you would like to play again.\n\n\n\n\n\n
+
+< topic
