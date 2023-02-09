@@ -1,93 +1,93 @@
-    // This bot has multiple questions that can be asked. The bot has very biased responses and usually responds with the wrong answer.
-    // The bot also has 2 additional features that are hidden under the *secret menu*. This menu is only accessible when you enter 
-    // 6 into the biased_questions prompt. 
+// This bot has multiple questions that can be asked. The bot has very biased responses and usually responds with the wrong answer.
+// The bot also has 2 additional features that are hidden under the *secret menu*. This menu is only accessible when you enter 
+// 6 into the biased_questions prompt. 
 
 
-    ! version = 2.0
+! version = 2.0
 
 
-    + s
-    - Hello and Welcome to Biased Bot. {topic=biased_questions}{@biased}
++ s
+- Hello and Welcome to Biased Bot. {topic=biased_questions}{@biased}
 
 
-    > topic biased_questions
+> topic biased_questions
 
-        + biased
-        - \n\nAsk one of the following questions, and I will give you the answer:
-        ^ \n1. How old is the Earth?
-        ^ \n2. Who created us?
-        ^ \n3. Who is the best NFL team?
-        ^ \n4. What shape is the Earth?
-        ^ \n5. What does 2 + 2 = ? {topic=biased_answers}
+    + biased
+    - \n\nAsk one of the following questions, and I will give you the answer:
+    ^ \n1. How old is the Earth?
+    ^ \n2. Who created us?
+    ^ \n3. Who is the best NFL team?
+    ^ \n4. What shape is the Earth?
+    ^ \n5. What does 2 + 2 = ? {topic=biased_answers}
 
-    < topic
-
-
-    > topic biased_answers
-
-        + 1
-        - The Earth is 1 day old. {weight=100}{topic=biased_questions}{@biased}
-        - The Earth is 1 year old. {weight=5}{topic=biased_questions}{@biased}
-        - The Earth is 4 billion years old. {weight=5}{topic=biased_questions}{@biased}
-
-        + 2
-        - We created ourselves. {weight=100}{topic=biased_questions}{@biased}
-        - God created us. {weight=5}{topic=biased_questions}{@biased}
-        - We are monkeys. {weight=5}{topic=biased_questions}{@biased}
-
-        + 3
-        - The Greenbay Packers. {weight=100}{topic=biased_questions}{@biased}
-        - The Minnesota Vikings. {weight=5}{topic=biased_questions}{@biased}
-        - UNW Eagles. {weight=5}{topic=biased_questions}{@biased}
-        
-        + 4
-        - The Earth is a pentagon. {weight=100}{topic=biased_questions}{@biased}
-        - The Earth is a sphere. {weight=5}{topic=biased_questions}{@biased}
-        - The Earth is flat. {weight=5}{topic=biased_questions}{@biased}
-
-        + 5
-        - 2 + 2 = fish. {weight=100}{topic=biased_questions}{@biased}
-        - 2 + 2 = 4. {weight=5}{topic=biased_questions}{@biased}
-        - 2 + 2 = Jesus. {weight=5}{topic=biased_questions}{@biased}
-
-        + 6
-        - {topic=main_menu}{@menu_options}
-
-        + #
-        - Invalid entry.
-
-    < topic
+< topic
 
 
-    > topic main_menu
+> topic biased_answers
 
-        + menu_options
-        - \n___SECRET MENU____
-        ^ \n1. Password check.
-        ^ \n2. Fun question.\n\n\n\n
+    + 1
+    - The Earth is 1 day old. {weight=100}{topic=biased_questions}{@biased}
+    - The Earth is 1 year old. {weight=5}{topic=biased_questions}{@biased}
+    - The Earth is 4 billion years old. {weight=5}{topic=biased_questions}{@biased}
 
-        + 1
-        - What is the password? {topic=password_check}
+    + 2
+    - We created ourselves. {weight=100}{topic=biased_questions}{@biased}
+    - God created us. {weight=5}{topic=biased_questions}{@biased}
+    - We are monkeys. {weight=5}{topic=biased_questions}{@biased}
 
-        + 2
-        - What is Minnesota's state code?{topic=fun_question}
+    + 3
+    - The Greenbay Packers. {weight=100}{topic=biased_questions}{@biased}
+    - The Minnesota Vikings. {weight=5}{topic=biased_questions}{@biased}
+    - UNW Eagles. {weight=5}{topic=biased_questions}{@biased}
+    
+    + 4
+    - The Earth is a pentagon. {weight=100}{topic=biased_questions}{@biased}
+    - The Earth is a sphere. {weight=5}{topic=biased_questions}{@biased}
+    - The Earth is flat. {weight=5}{topic=biased_questions}{@biased}
 
-    < topic
+    + 5
+    - 2 + 2 = fish. {weight=100}{topic=biased_questions}{@biased}
+    - 2 + 2 = 4. {weight=5}{topic=biased_questions}{@biased}
+    - 2 + 2 = Jesus. {weight=5}{topic=biased_questions}{@biased}
+
+    + 6
+    - {topic=main_menu}{@menu_options}
+
+    + #
+    - Invalid entry.
+
+< topic
 
 
-    > topic password_check
+> topic main_menu
 
-        + *
-        * <star1> == 1234 => You got the password right! {topic=main_menu}{@menu_options}
-        - Incorrect password. Try again.
+    + menu_options
+    - \n___SECRET MENU____
+    ^ \n1. Password check.
+    ^ \n2. Fun question.\n\n\n\n
 
-    < topic
+    + 1
+    - What is the password? {topic=password_check}
+
+    + 2
+    - What is Minnesota's state code?{topic=fun_question}
+
+< topic
 
 
-    > topic fun_question
+> topic password_check
 
-        + *
-        * <star1> == mn => Correct answer! {topic=main_menu}{@menu_options}
-        - That is not Minnesota's state code. Try again.
+    + *
+    * <star1> == 1234 => You got the password right! {topic=main_menu}{@menu_options}
+    - Incorrect password. Try again.
 
-    < topic
+< topic
+
+
+> topic fun_question
+
+    + *
+    * <star1> == mn => Correct answer! {topic=main_menu}{@menu_options}
+    - That is not Minnesota's state code. Try again.
+
+< topic
