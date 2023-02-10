@@ -1,0 +1,78 @@
+// This bot 
+
+
+! version = 2.0
+
+
++ s
+- Hello and Welcome to Chat Bot.
+^ \sBegin by asking me anything. {topic=chat}
+
+
+> topic chat
+
+    + (hello|hi|hey)
+    - Hi, How are you?
+    - Hello! 
+    - What is up?
+
+    + what is today
+    - Today is today.
+
+    + what is your name
+    - I am Chat Bot, what is your name?
+
+    + * 
+    % i am chat bot what is your name
+    - <set name=<formal>>That is a very nice name!
+
+    + *
+    % hi how are you
+    - That is good to hear1
+
+    + [*] said that [*] looks bad
+    - Why would <star1> say that too you?
+
+    + what is my name
+    * <get name> == undefined => You never told me your name.
+    - Your name is <get name>
+
+    + i have a girlfriend
+    - That is nice! What is her name?
+
+    + i have a boyfriend
+    - That is nice! What is his name?
+
+    + *
+    % that is nice what is his name
+    - <set p_name=<formal>>Wow her name is pretty!
+
+    + *
+    % that is nice what is his name
+    - <set p_name=<formal>>His name is really cool!
+
+    + what is my (girlfriends|boyfriends) name
+    * <get p_name> == undefined => You never told me your <star1>'s name.
+    - Your <star1>'s name is <get p_name>.
+
+    + tell me a joke
+    - OK. Why aren't people in athens "morning people"?
+    - OK. What did the zero say to the eight?
+    - OK. What does a sprinter eat before a race?
+
+    + *
+    % ok why arent people in athens morning people
+    - Because "Dawn is tough on Grease"
+
+    + *
+    % ok what did the zero say to the eight
+    - That belt looks good on you.
+
+    + *
+    % ok what does a sprinter eat before a race
+    - Nothing, they fast!
+
+    + *
+    - I'm sorry, I don't know that one yet.
+
+< topic
